@@ -33,21 +33,22 @@ router.get("/", async (req, res) => {
 });
 //-----------------------------------
 router.get("/:id", async (req, res) => {
-  try {
-    const post = await Posts.findById(req.params.id);
-
+    const post = req.params.id;
     if (post) {
-      res.status(200).json(post);
+      Posts.findById(req.params.id)
+      .then(post => {
+        res.status(200).json(post);
+      })
+      .catch(err => {
+        res.status(500).json({
+          message: "The post information could not be retrieved."
+        });
+      })
     } else {
       res
         .status(404)
         .json({ message: "The post with the specified ID does not exist." });
     }
-  } catch (err) {
-    res.status(500).json({
-      message: "The post information could not be retrieved."
-    });
-  }
 });
 //========================================Update API's
 router.put("/:id", async (req, res) => {
@@ -55,7 +56,7 @@ router.put("/:id", async (req, res) => {
     const post = await Posts.update(req.params.id, req.body);
     if (post) {
       res.status(200).json(post);
-    } else {
+    } else if (post.length <0){
       res.status(404).json({ message: "The post could not be found" });
     }
   } catch (err) {
