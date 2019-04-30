@@ -8,7 +8,7 @@ server.use('/api/posts', postsRouter);
 server.get('/', (req, res) => {
   res.send(`
     <h2>Ethans Post API</h>
-    <p>Welcome to the Ethans Post API</p>
+    <p>Welcome to the my Post API</p>
   `);
 });
 
